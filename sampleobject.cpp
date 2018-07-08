@@ -38,7 +38,7 @@ void SampleObject::Save(StandardFileSystem fs, const char* filename)
 	{
 		fs.deleteFile(filename);
 	}
-    //writeBuffer must contain the data to save
+    //writeBuffer must contain the data to save, this is where we implement the parser
     const char* writeBuffer = "Hello World";
 	IFile* createdFile = fs.createFile(filename);
 	if (!createdFile)
@@ -59,6 +59,7 @@ void SampleObject::Save(StandardFileSystem fs, const char* filename)
 void SampleObject::Load(StandardFileSystem fs, const char* filename)
 {
     std::cout << "Loading In Function!" << std::endl;
+
     IFile* openedFile = fs.openFile(filename);
 	if (!openedFile)
 	{
@@ -73,9 +74,12 @@ void SampleObject::Load(StandardFileSystem fs, const char* filename)
 	else
 	{
 		std::cout << "(infunction) File Contents:" << std::endl;
+		//destBuffer must be parsed into an object
+
 		std::cout << destBuffer << std::endl;
 	}
 	// Close the file
 	delete openedFile;
+
 }
 // END: Custom Code

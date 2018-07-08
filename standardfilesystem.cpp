@@ -1,6 +1,9 @@
 #include "standardfilesystem.h"
 #include <stdio.h>
 #include <sys/stat.h>
+
+#include <iostream>
+
 class StandardFile : public IFile
 {
 public:
@@ -72,6 +75,7 @@ StandardFileSystem::~StandardFileSystem()
 
 IFile * StandardFileSystem::createFile(const char * filename)
 {
+    std::cout << "Entered createFile (infunction)" << std::endl;
 	std::string filePath = convertFilePath(filename);
 
 	if (fileExists(filePath.c_str()))

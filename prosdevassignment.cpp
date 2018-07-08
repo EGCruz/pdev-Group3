@@ -21,7 +21,7 @@ void fileSystemExample()
 {
 	std::cout << "FILE SYSTEM EXAMPLE" << std::endl;
 	std::cout << "======================================================" << std::endl;
-	StandardFileSystem* fs = new StandardFileSystem("D:/test");
+	StandardFileSystem* fs = new StandardFileSystem("D:/Files");
 
 	// If newfile.txt exists, delete it
 	if (fs->fileExists("newfile.txt"))
@@ -156,13 +156,13 @@ void reflectionExample()
 
 	// Test Save
 	std::cout << "Testing Save..." << std::endl;
-	//StandardFileSystem fs("D:/test");
-	//obj.Save(fs, "sampleObj.dat");
+	StandardFileSystem fs("D:/test");
+	obj.Save(fs, "sampleObj.dat");
 
 	// Test Load
 	std::cout << "Testing Load..." << std::endl;
 	SampleObject newObj;
-	//newObj.Load(fs, "sampleObj.dat");
+	newObj.Load(fs, "sampleObj.dat");
 	showVars(newObj);
 	std::cout << "======================================================" << std::endl;
 }
@@ -175,7 +175,7 @@ void archiveExample()
 	// Create/open a new archive file
 	{
 		Archive newArchive;
-		newArchive.openArchive("D:/test/newfile.archive");
+		newArchive.openArchive("D:/Files/newfile.archive");
 		{
 			// Write "Hello Archive!" to test1.txt
 			const char fileContents[] = "Hello Archive!";
@@ -195,7 +195,7 @@ void archiveExample()
 	}
 	{
 		Archive archive;
-		archive.openArchive("D:/test/newfile.archive");
+		archive.openArchive("D:/Files/newfile.archive");
 		// Read the written files
 
 		// Read "test1.txt"

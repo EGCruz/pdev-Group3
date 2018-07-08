@@ -1,0 +1,39 @@
+# depslib dependency file v1.0
+1531050183 source:c:\users\edmund cruz\documents\github\pdev-group3\archive.cpp
+	"archive.h"
+	<string.h>
+	<sys/stat.h>
+
+1531050183 c:\users\edmund cruz\documents\github\pdev-group3\archive.h
+	<stddef.h>
+	<vector>
+	<stdio.h>
+	<inttypes.h>
+	<string>
+
+1531050183 source:c:\users\edmund cruz\documents\github\pdev-group3\standardfilesystem.cpp
+	"standardfilesystem.h"
+	<stdio.h>
+	<sys/stat.h>
+
+1531050183 c:\users\edmund cruz\documents\github\pdev-group3\standardfilesystem.h
+	"filesystem.h"
+	<string>
+
+1531050183 c:\users\edmund cruz\documents\github\pdev-group3\filesystem.h
+	<stddef.h>
+
+1531050295 source:c:\users\edmund cruz\documents\github\pdev-group3\sampleobject.cpp
+	"sampleobject.h"
+	<iostream>
+
+1531050425 c:\users\edmund cruz\documents\github\pdev-group3\sampleobject.h
+	"reflection.h"
+	"standardfilesystem.h"
+
+1531050183 c:\users\edmund cruz\documents\github\pdev-group3\reflection.h
+	<string>
+	<vector>
+	<assert.h>
+	<string.h>
+

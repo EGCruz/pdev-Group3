@@ -3,6 +3,8 @@
 #define SAMPLEOBJECT_H
 #include "reflection.h"
 
+#include "standardfilesystem.h"
+
 /*
 	SampleObject.definition
 	-----------------------
@@ -48,6 +50,8 @@ private:
 public:
 
 	void myCustomFunction();
+	void Save(StandardFileSystem fs, const char* filename);
+	void Load(StandardFileSystem fs, const char* filename);
 // END: Custom Code
 
 };

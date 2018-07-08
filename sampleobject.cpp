@@ -4,7 +4,7 @@
 
 SampleObject::SampleObjectTypeDesc SampleObject::s_Desc;
 
-SampleObject::SampleObjectTypeDesc::SampleObjectTypeDesc() 
+SampleObject::SampleObjectTypeDesc::SampleObjectTypeDesc()
 {
 	m_name = "SampleObject";
 	m_memberDesc.push_back(MemberDesc("MyIntVariable", Type_Int, 1, offsetof(SampleObject, m_MyIntVariable)));
@@ -30,4 +30,12 @@ void SampleObject::myCustomFunction()
 {
 	std::cout << "Custom Function!" << std::endl;
 }
-// END: Custom Code 
+void SampleObject::Save(StandardFileSystem fs, const char* filename)
+{
+    std::cout << "Saving Function!" << std::endl;
+}
+void SampleObject::Load(StandardFileSystem fs, const char* filename)
+{
+    std::cout << "Loading Function!" << std::endl;
+}
+// END: Custom Code

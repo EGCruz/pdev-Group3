@@ -2,6 +2,7 @@
 // BEGIN: Generated from SampleObject.definition
 #include "sampleobject.h"
 #include "standardfilesystem.h"
+#include <string>
 
 SampleObject::SampleObjectTypeDesc SampleObject::s_Desc;
 
@@ -33,13 +34,22 @@ void SampleObject::myCustomFunction()
 }
 void SampleObject::Save(StandardFileSystem fs, const char* filename)
 {
+    int intVar;
+	bool boolVar;
+	float floatVar;
+	double doubleVar;
+	int intArray[12];
+
+	std::string toSave;
+
+
     std::cout << "Saving In Function!" << std::endl;
     if (fs.fileExists(filename))
 	{
 		fs.deleteFile(filename);
 	}
     //writeBuffer must contain the data to save, this is where we implement the parser
-    const char* writeBuffer = "Hello World";
+    //const char* writeBuffer = "Hello World";
 	IFile* createdFile = fs.createFile(filename);
 	if (!createdFile)
 	{
@@ -47,11 +57,49 @@ void SampleObject::Save(StandardFileSystem fs, const char* filename)
 		return;
 	}
 
-	if (!createdFile->write(writeBuffer, strlen(writeBuffer) + 1 /* add 1 to length for null terminator */))
+
+    const TypeDesc& desc = this->typeDescription();
+	std::cout << desc.name() << " Contents" << std::endl;
+    toSave = desc.name();
+    std::cout << toSave << std::endl;
+
+	this->getMemberValue("MyIntVariable", intVar);
+    std::string bufferInt = std::to_string(intVar);
+    toSave = toSave + "|" + bufferInt;
+    std::cout << toSave << std::endl;
+
+	this->getMemberValue("MyBoolVariable", boolVar);
+    std::string bufferBool = std::to_string(boolVar); // 1 or 0 yung isave
+    toSave = toSave + "|" + bufferBool;
+    std::cout << toSave << std::endl;
+
+    this->getMemberValue("MyFloatVariable", floatVar);
+    std::string bufferFloat = std::to_string(floatVar);
+    toSave = toSave + "|" + bufferFloat;
+    std::cout << toSave << std::endl;
+
+    this->getMemberValue("MyDoubleVariable", doubleVar);
+    std::string bufferDouble = std::to_string(doubleVar);
+    toSave = toSave + "|" + bufferDouble;
+    std::cout << toSave << std::endl;
+
+    toSave = toSave + "|";
+    this->getMemberArray("MyArray", intArray, 12);
+    for (int i = 0; i < 12; i++)
+		{
+			std::string bufferArray = std::to_string(intArray[i]);
+			toSave = toSave + bufferArray + ",";
+		}
+    toSave = toSave + "^"; // ^ is end of file
+    std::cout << toSave << std::endl;
+
+    char *toSaveChar = new char[toSave.length() + 1];
+    strcpy(toSaveChar, toSave.c_str());
+
+	if (!createdFile->write(toSaveChar, strlen(toSaveChar) + 1 /* add 1 to length for null terminator */))
 	{
 		std::cout << "Failed to write to file (infunction)" << std::endl;
 	}
-
 	delete createdFile;
 	std::cout << "Successfully created file" << std::endl;
 

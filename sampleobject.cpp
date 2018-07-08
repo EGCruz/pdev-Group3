@@ -1,6 +1,7 @@
 
 // BEGIN: Generated from SampleObject.definition
 #include "sampleobject.h"
+#include "standardfilesystem.h"
 
 SampleObject::SampleObjectTypeDesc SampleObject::s_Desc;
 
@@ -32,10 +33,49 @@ void SampleObject::myCustomFunction()
 }
 void SampleObject::Save(StandardFileSystem fs, const char* filename)
 {
-    std::cout << "Saving Function!" << std::endl;
+    std::cout << "Saving In Function!" << std::endl;
+    if (fs.fileExists(filename))
+	{
+		fs.deleteFile(filename);
+	}
+    //writeBuffer must contain the data to save
+    const char* writeBuffer = "Hello World";
+	IFile* createdFile = fs.createFile(filename);
+	if (!createdFile)
+	{
+		std::cout << "Failed to create a file (infunction)" << std::endl;
+		return;
+	}
+
+	if (!createdFile->write(writeBuffer, strlen(writeBuffer) + 1 /* add 1 to length for null terminator */))
+	{
+		std::cout << "Failed to write to file (infunction)" << std::endl;
+	}
+
+	delete createdFile;
+	std::cout << "Successfully created file" << std::endl;
+
 }
 void SampleObject::Load(StandardFileSystem fs, const char* filename)
 {
-    std::cout << "Loading Function!" << std::endl;
+    std::cout << "Loading In Function!" << std::endl;
+    IFile* openedFile = fs.openFile(filename);
+	if (!openedFile)
+	{
+		std::cout << "Failed to open file (infunction)" << std::endl;
+	}
+	size_t size = openedFile->length();
+	char* destBuffer = new char[size];
+	if (!openedFile->read(destBuffer, size))
+	{
+		std::cout << "Failed to read from file (infunction)!" << std::endl;
+	}
+	else
+	{
+		std::cout << "(infunction) File Contents:" << std::endl;
+		std::cout << destBuffer << std::endl;
+	}
+	// Close the file
+	delete openedFile;
 }
 // END: Custom Code

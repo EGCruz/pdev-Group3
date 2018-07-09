@@ -3,6 +3,9 @@
 #include "sampleobject.h"
 #include "standardfilesystem.h"
 #include <string>
+#include <sstream>
+#include <iterator>
+#include <vector>
 
 SampleObject::SampleObjectTypeDesc SampleObject::s_Desc;
 
@@ -34,7 +37,7 @@ void SampleObject::myCustomFunction()
 }
 void SampleObject::Save(StandardFileSystem fs, const char* filename)
 {
-    int intVar;
+   int intVar;
 	bool boolVar;
 	float floatVar;
 	double doubleVar;
@@ -56,7 +59,6 @@ void SampleObject::Save(StandardFileSystem fs, const char* filename)
 		std::cout << "Failed to create a file (infunction)" << std::endl;
 		return;
 	}
-
 
     const TypeDesc& desc = this->typeDescription();
 	std::cout << desc.name() << " Contents" << std::endl;
@@ -121,13 +123,72 @@ void SampleObject::Load(StandardFileSystem fs, const char* filename)
 	}
 	else
 	{
-		std::cout << "(infunction) File Contents:" << std::endl;
-		//destBuffer must be parsed into an object
+		std::cout << "\n(infunction) File Contents:" << std::endl;
 
-		std::cout << destBuffer << std::endl;
-	}
+		//print destBuffer
+        std::cout << "\ndestBuffer: " << destBuffer << "\n" << std::endl;
+
+        //put contents of destBuffer into temp String
+        std::string tempString;
+        tempString.append(destBuffer);
+
+
+
+        //remove separators ("|" in this case) from String
+        std::vector<std::string> dataVector;
+        std::stringstream stringStream(tempString);
+        std::string line;
+        while(std::getline(stringStream, line))
+        {
+            std::size_t prev = 0, pos;
+            while ((pos = line.find_first_of("|", prev)) != std::string::npos)
+            {
+                if (pos > prev)
+                    dataVector.push_back(line.substr(prev, pos-prev));
+                prev = pos+1;
+            }
+            if (prev < line.length())
+                dataVector.push_back(line.substr(prev, std::string::npos));
+        }
+
+            //parse separated values into object
+            int temp;
+            std::istringstream (dataVector.at(1)) >> temp;
+            m_MyIntVariable = temp;
+
+            std::istringstream (dataVector.at(2)) >> temp;
+            m_MyBoolVariable = temp;
+
+            std::istringstream (dataVector.at(3)) >> temp;
+            m_MyFloatVariable = temp;
+
+            std::istringstream (dataVector.at(4)) >> temp;
+            m_MyDoubleVariable = temp;
+
+            //parse intarray into object; same process with separating values in destBuffer
+            std::string tempIntArray = dataVector.at(5);
+            std::vector<std::string> dataVector2;
+            std::stringstream stringStream2(tempIntArray);
+            while(std::getline(stringStream2, line))
+            {
+                std::size_t prev = 0, pos;
+                while ((pos = line.find_first_of(",", prev)) != std::string::npos)
+                {
+                    if (pos > prev)
+                        dataVector2.push_back(line.substr(prev, pos-prev));
+                    prev = pos+1;
+                }
+                if (prev < line.length())
+                    dataVector2.push_back(line.substr(prev, std::string::npos));
+            }
+
+            for (int unsigned i=0; i<(dataVector2.size() - 2); i++)
+            {
+                std::istringstream (dataVector2.at(i)) >> temp;
+                m_MyArray[i]=temp;
+            }
 	// Close the file
 	delete openedFile;
-
+	}
 }
 // END: Custom Code
